@@ -8,78 +8,71 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author ASUS
- */
 public class LoginUser {
-    private String username;
-    private String email;
-    private String password;
-    private List<String> loginHistory;
+    private static String email;
+    private static String password;
+    private static boolean isLoggedIn = false;
+    private static boolean hasSignedUp = false;
+    private List<String> paymentHistory; // Tambahkan daftar riwayat pembayaran
 
-    public LoginUser() {
-        loginHistory = new ArrayList<>();
-    }
+    // Method to handle login
+    public static void login() {
+        if (hasSignedUp) {
+            Scanner input = new Scanner(System.in);
 
-    public void signUp(String email, String password) {
-        if (this.email != null && this.password != null) {
-            System.out.println("Anda tidak perlu Sign Up, harap Login");
+            System.out.print("Masukkan email: ");
+            String enteredEmail = input.next();
+            System.out.print("Masukkan password: ");
+            String enteredPassword = input.next();
+
+            // Check if entered credentials match the stored ones
+            if (email != null && password != null && enteredEmail.equals(email) && enteredPassword.equals(password)) {
+                isLoggedIn = true;
+                System.out.println("Login berhasil!");
+            } else {
+                System.out.println("Login gagal. Silakan coba lagi.");
+            }
         } else {
-            this.email = email;
-            this.password = password;
-            System.out.println("Sign Up berhasil! Anda akan diarahkan ke halaman utama.");
-            // Arahkan pengguna ke halaman utama untuk mendaftarkan mobil
-            registerCar();
+            System.out.println("Anda belum mendaftar. Silakan daftar terlebih dahulu.");
         }
     }
 
-    public void registerCar() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Silakan daftarkan mobil Anda:");
+    // Method to handle sign-up
+    public static void signUp() {
+        if (!hasSignedUp) {
+            Scanner input = new Scanner(System.in);
 
-        System.out.print("Plat Nomor: ");
-        String platNomor = sc.nextLine(); // Menggunakan nextLine() agar bisa membaca spasi
+            System.out.print("Masukkan email baru: ");
+            email = input.next();
+            System.out.print("Masukkan password baru: ");
+            password = input.next();
 
-        System.out.print("Merek Mobil: ");
-        String merekMobil = sc.nextLine();
-
-        System.out.print("Nama Pemilik: ");
-        String namaPemilik = sc.nextLine();
-
-        System.out.print("CC Mobil: ");
-        String ccMobil = sc.nextLine();
-
-        // Lakukan sesuatu dengan data mobil yang didaftarkan, misalnya menyimpan ke database
-        System.out.println("Mobil berhasil didaftarkan!");
-
-        // Tambahkan riwayat login
-        loginHistory.add("Pendaftaran mobil dengan plat nomor " + platNomor);
-    }
-
-    public void printLoginHistory() {
-        System.out.println("Riwayat Login:");
-        for (String log : loginHistory) {
-            System.out.println(log);
+            isLoggedIn = true;
+            hasSignedUp = true;
+            System.out.println("Pendaftaran berhasil!");
+        } else {
+            System.out.println("Anda sudah mendaftar sebelumnya.");
         }
     }
 
-    public static void main(String[] args) {
-        LoginUser app = new LoginUser();
-        Scanner sc = new Scanner(System.in);
+    // Method to check if user is logged in
+    public static boolean isLoggedIn() {
+        return isLoggedIn;
+    }
 
-        System.out.print("Masukkan email: ");
-        String email = sc.next();
+    // Method to get the email of the logged-in user
+    public static String getEmail() {
+        return email;
+    }
+    
+    public void addPaymentHistory(String paymentDetails) {
+        paymentHistory.add(paymentDetails);
+    }
 
-        System.out.print("Masukkan password: ");
-        String password = sc.next();
-
-        app.signUp(email, password);
-
-        // Tampilkan riwayat login
-        app.printLoginHistory();
-
-        // Tutup scanner setelah digunakan
-        sc.close();
+    public void printPaymentHistory() {
+        System.out.println("Riwayat Pembayaran:");
+        for (String payment : paymentHistory) {
+            System.out.println(payment);
+        }
     }
 }
