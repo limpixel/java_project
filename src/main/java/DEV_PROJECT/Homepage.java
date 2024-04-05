@@ -6,7 +6,7 @@ package DEV_PROJECT;
 
 import java.util.Scanner;
 
-import java.util.Scanner;
+
 
 public class Homepage {
 
