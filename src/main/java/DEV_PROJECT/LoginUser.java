@@ -16,6 +16,7 @@ class Login {
     private String username;
     private String email;
     private String password;
+    private boolean loggedIn;
     private List<String> loginHistory;
 
     public Login() {
@@ -28,9 +29,19 @@ class Login {
         } else {
             this.email = email;
             this.password = password;
+            loggedIn = true;
             System.out.println("Sign Up berhasil! Anda akan diarahkan ke halaman utama.");
             // Arahkan pengguna ke halaman utama untuk mendaftarkan mobil
             registerCar();
+        }
+    }
+
+    public void login(String email, String password) {
+        if (this.email != null && this.password != null && this.email.equals(email) && this.password.equals(password)) {
+            loggedIn = true;
+            System.out.println("Login berhasil!");
+        } else {
+            System.out.println("Login gagal! Periksa kembali email dan password Anda.");
         }
     }
 
@@ -63,35 +74,21 @@ class Login {
             System.out.println(log);
         }
     }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
 
-class PremiumUser extends Login{
+class PremiumUser extends Login {
     // Override method untuk menambahkan fitur premium
     @Override
     public void registerCar() {
         super.registerCar(); // Panggil method registerCar dari kelas induk
         System.out.println("Fitur premium: pengguna premium dapat mengatur preferensi mobil.");
-    }
-}
-
-public class LoginUser {
-    public static void main(String[] args) {
-        Login app = new PremiumUser(); // Membuat objek PremiumUser
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Masukkan email: ");
-        String email = sc.next();
-
-        System.out.print("Masukkan password: ");
-        String password = sc.next();
-
-        app.signUp(email, password);
-
-        // Tampilkan riwayat login
-        app.printLoginHistory();
-
-        // Tutup scanner setelah digunakan
-        sc.close();
     }
 }

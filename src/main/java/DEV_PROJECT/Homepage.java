@@ -6,19 +6,18 @@ package DEV_PROJECT;
 
 import java.util.Scanner;
 
-
-
 public class Homepage {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        Login userLogin = new Login(); // Membuat objek LoginUser
 
         System.out.println("Selamat datang di Aplikasi XYZ!");
 
         // Loop until the user decides to exit
         while (true) {
-            if (LoginUser.isLoggedIn()) {
-                System.out.println("Selamat datang kembali, " + LoginUser.getEmail() + "!");
+            if (userLogin.isLoggedIn()) {
+                System.out.println("Selamat datang kembali, " + userLogin.getEmail() + "!");
                 displayMainMenu();
             } else {
                 System.out.println("Silakan pilih tindakan:");
@@ -32,11 +31,19 @@ public class Homepage {
                 switch (option) {
                     case 1:
                         // Perform login
-                        LoginUser.login();
+                        System.out.print("Masukkan email: ");
+                        String email = input.nextLine();
+                        System.out.print("Masukkan password: ");
+                        String password = input.nextLine();
+                        userLogin.login(email, password);
                         break;
                     case 2:
                         // Perform sign-up
-                        LoginUser.signUp();
+                        System.out.print("Masukkan email: ");
+                        String newEmail = input.nextLine();
+                        System.out.print("Masukkan password: ");
+                        String newPassword = input.nextLine();
+                        userLogin.signUp(newEmail, newPassword);
                         break;
                     case 3:
                         System.out.println("Terima kasih! Sampai jumpa lagi.");
@@ -64,10 +71,12 @@ public class Homepage {
         switch (optionUser) {
             case 1:
                 System.out.println("Anda memilih Pengisian Bahan Bakar");
-                TransactionGasStation.main(new String[0]);
+                // Panggil metode untuk pengisian bahan bakar di sini
                 break;
             default:
                 System.out.println("Pilihan tidak valid.");
         }
+
+        input.close(); // Menutup Scanner setelah penggunaan
     }
 }
